@@ -65,7 +65,7 @@ publishing {
         maven(MavenPublication) {
             groupId = 'com.github.sopt-makers'
             artifactId = 'auth'
-            version = '0.1.0'
+            version = '0.1.2'
 
             afterEvaluate {
                 from components.release
