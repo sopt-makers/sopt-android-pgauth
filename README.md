@@ -2,7 +2,7 @@
 [국내 최대 규모의 대학생 연합 IT 벤처창업 동아리 SOPT](https://sopt.org/)에서 제작한 Android 공식 앱을 위한
 [Playground](https://playground.sopt.org/) 로그인을 제공합니다.
 
-현제는 Beta 사용 버전으로 실제 서버에 요청을 전달하지 않습니다.
+현재는 Beta 사용 버전으로 실제 서버에 요청을 전달하지 않습니다.
 
 ## Setup
 **Step1. Add JitPack repository to your build file**
