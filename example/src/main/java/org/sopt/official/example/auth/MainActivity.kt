@@ -8,7 +8,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import org.sopt.official.example.databinding.ActivityMainBinding
 import org.sopt.official.playground.auth.PlaygroundAuth
-import org.sopt.official.playground.auth.utils.PlaygroundLog
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -28,14 +27,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun collectLoginEvent() = lifecycleScope.launch {
         authViewModel.loginEventStream.collect() {
-            kotlin.runCatching {
-                PlaygroundAuth.authorizeWithWebTab(this@MainActivity) { result ->
-                    result.onSuccess {
-                        PlaygroundLog.i(it)
-                        authViewModel.completeLogin(it.accessToken)
-                    }.onFailure { throw it }
+            PlaygroundAuth.authorizeWithWebTab(this@MainActivity) { result ->
+                result.onSuccess {
+                    authViewModel.completeLogin(it.accessToken)
+                }.onFailure { exception ->
                 }
-            }.onFailure { authViewModel.completeLogin(it.stackTrace.joinToString { "\n" }) }
+            }
         }
     }
 }
