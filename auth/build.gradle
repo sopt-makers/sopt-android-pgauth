@@ -63,7 +63,7 @@ dependencies {
 publishing {
     publications {
         maven(MavenPublication) {
-            groupId = 'org.sopt.official.playground.auth'
+            groupId = 'com.github.sopt-makers'
             artifactId = 'auth'
             version = '0.1.0'
 
