@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 import org.sopt.official.playground.auth.data.PlaygroundApiManager
 import org.sopt.official.playground.auth.data.PlaygroundAuthDatasource
 import org.sopt.official.playground.auth.data.RemotePlaygroundAuthDatasource
-import org.sopt.official.playground.auth.data.remote.model.response.OauthToken
+import org.sopt.official.playground.auth.data.remote.model.response.OAuthToken
 import org.sopt.official.playground.auth.utils.PlaygroundUriProvider
 
 object PlaygroundAuth {
@@ -17,10 +17,11 @@ object PlaygroundAuth {
         context: Context,
         authStateGenerator: AuthStateGenerator = DefaultAuthStateGenerator(),
         uri: Uri? = null,
+        isDebug: Boolean = false,
         authDataSource: PlaygroundAuthDatasource = RemotePlaygroundAuthDatasource(
-            PlaygroundApiManager.getInstance().provideAuthService()
+            PlaygroundApiManager.getInstance(isDebug).provideAuthService()
         ),
-        callback: (Result<OauthToken>) -> Unit
+        callback: (Result<OAuthToken>) -> Unit,
     ) {
         val stateToken = authStateGenerator.generate()
         val resultReceiver = resultReceiver(authDataSource) {
@@ -28,7 +29,7 @@ object PlaygroundAuth {
         }
         startAuthTab(
             context = context,
-            uri = uri ?: PlaygroundUriProvider().authorize(state = stateToken),
+            uri = uri ?: PlaygroundUriProvider().authorize(state = stateToken, isDebug = isDebug),
             state = stateToken,
             resultReceiver = resultReceiver
         )
@@ -50,7 +51,7 @@ object PlaygroundAuth {
 
     private fun resultReceiver(
         authDataSource: PlaygroundAuthDatasource,
-        callback: (Result<OauthToken>) -> Unit
+        callback: (Result<OAuthToken>) -> Unit
     ) = PlaygroundAuthResultReceiver(
         callback = { code, error ->
             if (error != null) {
@@ -65,7 +66,7 @@ object PlaygroundAuth {
     private fun requestOauthToken(
         authDataSource: PlaygroundAuthDatasource,
         code: String,
-        callback: (Result<OauthToken>) -> Unit
+        callback: (Result<OAuthToken>) -> Unit
     ) = CoroutineScope(Dispatchers.Default).launch {
         callback(authDataSource.oauth(code))
     }
