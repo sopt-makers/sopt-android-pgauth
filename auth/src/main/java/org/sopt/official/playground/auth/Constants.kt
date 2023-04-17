@@ -1,6 +1,7 @@
 package org.sopt.official.playground.auth
 
 internal object Constants {
+    val NOT_SECURE_SCHEME: String = "http"
     val SCHEME: String = "https"
     val REDIRECT_URI: String = "redirect_uri"
     val CODE: String = "code"

@@ -38,7 +38,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.github.sopt-makers:sopt-android-pgauth:0.1.2'
+    implementation project(':auth')
 
 
     implementation 'androidx.core:core-ktx:1.9.0'

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import org.sopt.official.example.BuildConfig
 import org.sopt.official.example.databinding.ActivityMainBinding
 import org.sopt.official.playground.auth.PlaygroundAuth
 
@@ -26,8 +27,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun collectLoginEvent() = lifecycleScope.launch {
-        authViewModel.loginEventStream.collect() {
-            PlaygroundAuth.authorizeWithWebTab(this@MainActivity) { result ->
+        authViewModel.loginEventStream.collect {
+            PlaygroundAuth.authorizeWithWebTab(
+                this@MainActivity,
+                isDebug = false
+            ) { result ->
                 result.onSuccess {
                     authViewModel.completeLogin(it.accessToken)
                 }.onFailure { exception ->

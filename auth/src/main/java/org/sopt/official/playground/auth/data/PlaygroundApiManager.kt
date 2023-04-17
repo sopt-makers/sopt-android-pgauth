@@ -16,14 +16,14 @@ internal class PlaygroundApiManager private constructor(
         @Volatile
         private var instance: PlaygroundApiManager? = null
 
-        fun getInstance() = instance ?: synchronized(this) {
-            instance ?: PlaygroundApiManager(createRetrofit()).also {
+        fun getInstance(isDebug: Boolean) = instance ?: synchronized(this) {
+            instance ?: PlaygroundApiManager(createRetrofit(isDebug)).also {
                 instance = it
             }
         }
 
-        private fun createRetrofit() = ServiceFactory.withClient(
-            url = "${Constants.SCHEME}://${PlaygroundInfo.authHost}",
+        private fun createRetrofit(isDebug: Boolean) = ServiceFactory.withClient(
+            url = "${if (isDebug) Constants.NOT_SECURE_SCHEME else Constants.SCHEME}://${if (isDebug) PlaygroundInfo.DEBUG_AUTH_HOST else PlaygroundInfo.RELEASE_AUTH_HOST}",
             client = OkHttpClient.Builder()
                 .addInterceptor(ServiceFactory.loggingInterceptor)
                 .build()
