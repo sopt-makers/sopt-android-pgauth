@@ -19,7 +19,7 @@ Add in in your root build.gradle at the end of repositories:
 ** Step2. Add the dependency**
 ```groovy
     dependencies {
-	        implementation 'com.github.sopt-makers:sopt-android-pgauth:0.1.3'
+	        implementation 'com.github.sopt-makers:sopt-android-pgauth:0.1.4'
 	}
 ```
 
