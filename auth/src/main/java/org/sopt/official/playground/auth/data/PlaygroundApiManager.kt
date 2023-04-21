@@ -23,7 +23,7 @@ internal class PlaygroundApiManager private constructor(
         }
 
         private fun createRetrofit(isDebug: Boolean) = ServiceFactory.withClient(
-            url = "${if (isDebug) Constants.NOT_SECURE_SCHEME else Constants.SCHEME}://${if (isDebug) PlaygroundInfo.DEBUG_AUTH_HOST else PlaygroundInfo.RELEASE_AUTH_HOST}",
+            url = "${Constants.SCHEME}://${if (isDebug) PlaygroundInfo.DEBUG_AUTH_HOST else PlaygroundInfo.RELEASE_AUTH_HOST}",
             client = OkHttpClient.Builder()
                 .addInterceptor(ServiceFactory.loggingInterceptor)
                 .build()
