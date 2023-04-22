@@ -16,6 +16,9 @@ class AuthViewModel @Inject constructor() : ViewModel() {
     private val _loginEventStream = MutableSharedFlow<Unit>()
     val loginEventStream = _loginEventStream.asSharedFlow()
 
+    private val _loginDebugEventStream = MutableSharedFlow<Unit>()
+    val loginDebugEventStream = _loginDebugEventStream.asSharedFlow()
+
     private val _text = MutableStateFlow("로그인 이전")
     val text = _text.asStateFlow()
 
@@ -25,6 +28,13 @@ class AuthViewModel @Inject constructor() : ViewModel() {
 
     fun login() {
         PlaygroundLog.d("login event")
+        viewModelScope.launch {
+            _loginEventStream.emit(Unit)
+        }
+    }
+
+    fun loginDebug() {
+        PlaygroundLog.d("login debug event")
         viewModelScope.launch {
             _loginEventStream.emit(Unit)
         }
