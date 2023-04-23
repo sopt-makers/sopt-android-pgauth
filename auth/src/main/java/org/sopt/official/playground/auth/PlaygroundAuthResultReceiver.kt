@@ -12,9 +12,8 @@ internal class PlaygroundAuthResultReceiver(
 
     override fun receiveSuccess(resultData: Bundle?) {
         resultData?.getString(Constants.STATE)?.let {
-            Result.success(it)
             emitter?.invoke(it, null)
-        } ?: emitter?.invoke(null, PlaygroundError.NotFoundStateCode)
+        } ?: emitter?.invoke(null, PlaygroundError.NotFoundStateCode())
     }
 
     override fun receiveFailure(resultData: Bundle?) {
@@ -23,6 +22,6 @@ internal class PlaygroundAuthResultReceiver(
     }
 
     override fun error() {
-        emitter?.invoke(null, PlaygroundError.IllegalStateCode)
+        emitter?.invoke(null, PlaygroundError.IllegalStateCode())
     }
 }

@@ -14,7 +14,7 @@ internal class RemotePlaygroundAuthDatasource(
         val result = kotlin.runCatching { authService.oauth(RequestToken(code)) }
         return when (val exception = result.exceptionOrNull()) {
             null -> result
-            is UnknownHostException -> Result.failure(PlaygroundError.NetworkUnavailable)
+            is UnknownHostException -> Result.failure(PlaygroundError.NetworkUnavailable())
             else -> Result.failure(exception)
         }
     }
