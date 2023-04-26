@@ -32,6 +32,9 @@ object PlaygroundCustomTabManager {
     internal fun openWithDefaultBrowser(context: Context, uri: Uri): Result<ServiceConnection> {
         val packageName = resolveCustomTabPackage(context, uri)
             ?: return Result.failure(PlaygroundError.NotSupported("기기에서 설치된 Browser를 찾을 수 없습니다."))
+        if (!packageName.isChromePackageName()) {
+            return Result.failure(PlaygroundError.NotSupported("기본 앱이 Chrome 이 아닙니다."))
+        }
         PlaygroundLog.d("open $packageName as custom tab browser")
         val playgroundConnection =
             PlaygroundServiceConnection(context, buildCustomTabIntent(), uri, packageName)
